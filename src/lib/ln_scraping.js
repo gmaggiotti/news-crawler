@@ -5,7 +5,7 @@ var fs = require('fs');
 var md5 = require('md5');
 
 let randomUserAgent = require('random-user-agent');
-let tn_rss_url = 'https://tn.com.ar/rss.xml'
+let ln_rss_url = 'http://contenidos.lanacion.com.ar/herramientas/rss-origen=2'
 
 const htmlFetch = async ( link ) => {
     return fetch(link ,{headers:{
@@ -26,9 +26,9 @@ const htmlFetch = async ( link ) => {
 const getNota = async (link, path ) => {
     const fetch = await htmlFetch(link);
 
-    let title = fetch.$('.article__title').text().trim();
-    let dropline = fetch.$('.article__dropline').text().trim();
-    let body = fetch.$('.article__body p').text().trim();
+    let title = fetch.$('.titulo').text().trim();
+    let dropline = fetch.$('.epigrafe').text().trim();
+    let body = fetch.$('#cuerpo p').text().trim();
 
     if (!fs.existsSync(path + md5(link) )) {
         fs.writeFile(path + md5(link), title + "\n" + dropline + '\n' + body, function (err) {
@@ -36,19 +36,19 @@ const getNota = async (link, path ) => {
                 return console.log(err);
             }
 
-            console.log("Adding TN " + link + " - " + md5(link));
+            console.log("Adding LN " + link + " - " + md5(link));
         });
     }
 };
 
 const getRss = function ( path ) {
-    fetch(tn_rss_url)
+    fetch(ln_rss_url)
         .then(res => res.text())
         .then(
             xml => parseString(xml, function (err, result) {
-                result.rss.channel[0].item.forEach(function (element) {
+                result.feed.entry.forEach(function (element) {
                     //title = element.title[0];
-                    link = element.link[0]
+                    link = element.id[0]
                     //console.log("title: " + title);
                     //console.log("link: " + link);
                     getNota( link, path )

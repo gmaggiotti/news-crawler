@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 var usage = require('./usage');
-const fetcher = require('./lib/tn_scraping');
-
+const tn = require('./lib/tn_scraping');
+const ln = require('./lib/ln_scraping');
 var storage_path = '../articles/'
 
 function newsCrawler() {
     res = usage.parseArguments();
-    fetcher.getRss(storage_path)
+    tn.getRss(storage_path);
+    ln.getRss(storage_path)
 
     console.log(res)
 }
