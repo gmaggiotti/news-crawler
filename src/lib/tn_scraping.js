@@ -1,10 +1,14 @@
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 var parseString = require('xml2js').parseString
-let randomUserAgent = require('random-user-agent');
+var fs = require('fs');
+var md5 = require('md5');
 
-const htmlFetch = async (uri) => {
-    return fetch(uri,{headers:{
+let randomUserAgent = require('random-user-agent');
+let tn_rss_url = 'https://tn.com.ar/rss.xml'
+
+const htmlFetch = async ( link ) => {
+    return fetch(link ,{headers:{
         'user-agent': randomUserAgent('desktop')
     }})
         .then(function(res) { return res.text();})
@@ -19,17 +23,26 @@ const htmlFetch = async (uri) => {
         });
 };
 
-const getNota = async (uri) => {
-    const fetch = await htmlFetch(uri);
+const getNota = async (link, path ) => {
+    const fetch = await htmlFetch(link);
 
     let title = fetch.$('.article__title').text().trim();
     let dropline = fetch.$('.article__dropline').text().trim();
     let body = fetch.$('.article__body p').text().trim();
-    console.log(title)
+
+    if (!fs.existsSync(path + md5(link) )) {
+        fs.writeFile(path + md5(link), title + "\n" + dropline + '\n' + body, function (err) {
+            if (err) {
+                return console.log(err);
+            }
+
+            console.log("The file was saved!");
+        });
+    }
 };
 
-const getRss = function (uri) {
-    fetch(uri)
+const getRss = function ( path ) {
+    fetch(tn_rss_url)
         .then(res => res.text())
         .then(
             xml => parseString(xml, function (err, result) {
@@ -38,7 +51,7 @@ const getRss = function (uri) {
                     link = element.link[0]
                     //console.log("title: " + title);
                     console.log("link: " + link);
-                    getNota(link)
+                    getNota( link, path )
                 });
 
 
