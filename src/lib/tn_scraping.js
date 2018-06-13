@@ -28,36 +28,33 @@ const htmlFetch = async ( link ) => {
 const getNota = async (link) => {
     const fetch = await htmlFetch(link);
 
-    let title = fetch.$('.article__title').text().trim().replace(/[^ -~]+/g, "").replace(/([\"\'])/g,'\\"');
-    let dropline = fetch.$('.article__dropline').text().trim();
-    let body = fetch.$('.article__body p').text().trim();
-
-    if (!fs.existsSync(storage_path + md5(link))) {
-        fs.writeFile(storage_path + md5(link), title + "\n" + dropline + '\n' + body, function (err) {
-            if (err) {
-                return console.log(err);
-            }
-
-            db_help.insert(link, md5(link), title, dropline, "TN", null)
-            console.log("Adding TN " + link + " - " + md5(link));
-        });
+    const title = fetch.$('.article__title').text().trim().replace(/[^ -~]+/g, "").replace(/([\"\'])/g,'\\"');
+    const dropline = fetch.$('.article__dropline').text().trim();
+    const body = fetch.$('.article__body p').text().trim();
+    const filename = storage_path + md5(link);
+    if (!fs.existsSync(filename)) {
+        fs.writeFileSync(filename, title + "\n" + dropline + '\n' + body);
+        await db_help.insert(link, md5(link), title, dropline, "TN", null)
+        console.log("Adding TN " + link + " - " + md5(link));
     }
 };
 
-const getRss = function ( path ) {
-    fetch(tn_rss_url)
+const parseStringPromise = (xml) => {
+    return new Promise((resolve, reject) => {
+        return parseString(xml, (err, result) => {
+            resolve(result)
+        });
+    });
+}
+const getRss = function () {
+    return fetch(tn_rss_url)
         .then(res => res.text())
-        .then(
-            xml => parseString(xml, function (err, result) {
-                result.rss.channel[0].item.forEach(function (element) {
-                    //title = element.title[0];
-                    link = element.link[0]
-                    getNota( link )
-                });
-
-
-            })
-        );
+        .then( xml => parseStringPromise(xml) )
+        .then( result => Promise.all(
+            result.rss.channel[0].item.map(element => 
+                Promise.resolve(getNota(element.link[0]))
+            )
+        ));
 };
 
 module.exports = {
