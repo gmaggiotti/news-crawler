@@ -7,12 +7,10 @@ connection = require('./lib/connection');
 storage_path = '../articles/'
 
 function newsCrawler() {
-    res = usage.parseArguments();
+    const res = usage.parseArguments();
     connection.init();
-    tn.getRss();
-    ln.getRss();
-    cl.getRss();
-    console.log(res)
+    Promise.all([tn.getRss()])
+    .then((promises)=> console.log(res) || process.exit(0));
 }
 
 newsCrawler()
