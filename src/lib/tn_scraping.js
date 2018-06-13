@@ -32,30 +32,24 @@ const getNota = async (link) => {
     let dropline = fetch.$('.article__dropline').text().trim();
     let body = fetch.$('.article__body p').text().trim();
 
-    if (!fs.existsSync(storage_path + md5(link))) {
-        fs.writeFile(storage_path + md5(link), title + "\n" + dropline + '\n' + body, function (err) {
-            if (err) {
-                return console.log(err);
-            }
-
-            db_help.insert(link, md5(link), title, dropline, "TN", null)
-            console.log("Adding TN " + link + " - " + md5(link));
-        });
+    if (!fs.existsSync(storage_path + md5(link) )) {
+        fs.writeFileSync(storage_path + md5(link), title + "\n" + dropline + '\n' + body);
+        await db_help.insert(link, md5(link), title, dropline, "TN", null)
+        console.log("Adding TN " + link + " - " + md5(link));
     }
 };
 
-const getRss = function ( path ) {
-    fetch(tn_rss_url)
+const getRss = async (path) => {
+    return fetch(tn_rss_url)
         .then(res => res.text())
         .then(
-            xml => parseString(xml, function (err, result) {
-                result.rss.channel[0].item.forEach(function (element) {
+            async xml => parseString(xml, async function (err, result) {
+                return result.rss.channel[0].item.forEach(function (element) {
                     //title = element.title[0];
-                    link = element.link[0]
-                    getNota( link )
+                    link = element.link[0];
+                    //console.log(link)
+                    getNota(link)
                 });
-
-
             })
         );
 };

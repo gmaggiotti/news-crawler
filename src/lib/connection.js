@@ -5,7 +5,7 @@ function Connection() {
 
     this.init = function() {
         this.pool = mysql.createPool({
-            connectionLimit: 100,
+            connectionLimit: 300,
             host: 'localhost',
             user: 'root',
             password: 'bla',

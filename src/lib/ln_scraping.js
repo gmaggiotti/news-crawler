@@ -32,19 +32,14 @@ const getNota = async (link ) => {
     let body = fetch.$('#cuerpo p').text().trim();
 
     if (!fs.existsSync(storage_path + md5(link) )) {
-        fs.writeFile(storage_path + md5(link), title + "\n" + dropline + '\n' + body, function (err) {
-            if (err) {
-                return console.log(err);
-            }
-
-            db_help.insert(link, md5(link), title, dropline, "LN", null)
+        fs.writeFileSync(storage_path + md5(link), title + "\n" + dropline + '\n' + body);
+            await db_help.insert(link, md5(link), title, dropline, "LN", null)
             console.log("Adding LN " + link + " - " + md5(link));
-        });
     }
 };
 
 const getRss = function ( path ) {
-    fetch(ln_rss_url)
+    return fetch(ln_rss_url)
         .then(res => res.text())
         .then(
             xml => parseString(xml, function (err, result) {
