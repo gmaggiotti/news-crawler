@@ -1,4 +1,4 @@
-exports.rss =[
+exports.feeds =[
     {brand: {url:'https://tn.com.ar/rss.xml',main:'https://www.tn.com.ar/' ,links:'result.rss.channel[0].item', element:'element.link[0]', scraping:{title:'.article__title', dropline:'.article__dropline', body: '.article__body p'}, site:'TN'}},
     {brand: {url:'https://tn.com.ar/feed/policiales',main:'https://www.tn.com.ar/' ,links:'result.rss.channel[0].item', element:'element.link[0]', scraping:{title:'.article__title', dropline:'.article__dropline', body: '.article__body p'}, site:'TN'}},
     {brand: {url:'https://tn.com.ar/feed/politica',main:'https://www.tn.com.ar/' ,links:'result.rss.channel[0].item', element:'element.link[0]', scraping:{title:'.article__title', dropline:'.article__dropline', body: '.article__body p'}, site:'TN'}},

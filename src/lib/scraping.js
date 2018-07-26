@@ -6,8 +6,6 @@ var fs = require('fs');
 var md5 = require('md5');
 let randomUserAgent = require('random-user-agent');
 
-
-
 const htmlFetch = async ( link ) => {
     return fetch(link ,{headers:{
         'user-agent': randomUserAgent('desktop')
@@ -38,7 +36,6 @@ const getNota = async (link, site) => {
         console.log("Adding "+ site.site + " " + link + " - " + md5(link));
     }
 };
-
 
 const parseStringPromise = (xml) => {
     return new Promise((resolve, reject) => {
