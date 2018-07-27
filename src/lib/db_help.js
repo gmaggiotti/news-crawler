@@ -1,14 +1,13 @@
 
-exports.insert = function(link, hash, title, dropline, brand, c_id) {
+exports.insert = function(date,link, hash, title, dropline, brand) {
     return new Promise((resolve, reject)=>{
         connection.acquire(function (err, con) {
-            con.query('insert into article(date,link,hash,title, brand,c_id) values("' +
-                new Date().toISOString() + '","' +
+            con.query('insert into article(date,link,hash,title, brand) values("' +
+                date + '","' +
                 link + '", "' +
                 hash + '" , "' +
                 title + '", "' +
-                brand + '", ' +
-                c_id + ')', function(err, result){
+                brand + '")', function(err, result){
                     resolve(result);
                 } );
         });

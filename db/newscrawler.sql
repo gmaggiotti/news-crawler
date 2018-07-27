@@ -11,4 +11,4 @@ CREATE TABLE `article` (
    PRIMARY KEY(id)
 );
 
-insert into article values(1,'2018-06-10 12:30', 'https://www.lanacion.com.ar/2142540-mauricio-macri-el-peronismo-sabe-que-no-hay-mas-lugar-para-la-locura','3dfdf81f415ddb1f57b2dc1db6be2d5a','title'','TN',null );
+insert into article values(1,'2018-06-10 12:30', 'https://www.lanacion.com.ar/2142540-mauricio-macri-el-peronismo-sabe-que-no-hay-mas-lugar-para-la-locura','3dfdf81f415ddb1f57b2dc1db6be2d5a','title'','TN' );
