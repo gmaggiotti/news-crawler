@@ -10,6 +10,7 @@ exports.insert = function(date,link, hash, title, dropline, brand) {
                 brand + '")', function(err, result){
                     resolve(result);
                 } );
+            con.release();
         });
     }); 
 }
