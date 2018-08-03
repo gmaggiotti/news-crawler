@@ -3,7 +3,8 @@ var usage = require('./usage');
 const site = require('./lib/scraping');
 const portadas = require('./lib/portada')
 connection = require('./lib/connection');
-datapoints = require('./google_news')
+googlenews = require('./google_news')
+rss = require('./rss')
 storage_path = '../articles/'
 
 
@@ -12,7 +13,10 @@ function newsCrawler() {
     connection.init();
 
     array =[]
-    datapoints.feeds.forEach(function(brand) {
+    rss.feeds.forEach(function(brand) {
+        array.push(site.getRss(brand.brand))
+    })
+    googlenews.feeds.forEach(function(brand) {
         array.push(site.getRss(brand.brand))
     })
     Promise.all(array )

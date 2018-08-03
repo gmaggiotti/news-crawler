@@ -39,6 +39,12 @@ const getNota = async (link, site,date) => {
     //TODO: fix local time when not geting date from feed
     const idate = (date == undefined || date == '' ) ? new Date().toISOString() : new Date(date).toISOString();
 
+    if(body == "")
+        console.log("Body not found for link: "+ link);
+
+    if(title == "")
+        console.log("Title not found for link: "+ title)
+
     if (!fs.existsSync(filename)) {
         fs.writeFileSync(filename, title + "\n" + dropline + '\n' + body);
         await db_help.insert(idate,link, md5(link), title, dropline, site.site)

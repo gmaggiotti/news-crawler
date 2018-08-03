@@ -20,7 +20,6 @@ exports.feeds =[
     {brand: {url:'http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=504', main:'https://www.lanacion.com/' ,links:'result.feed.entry', element:'element.id[0]', date:'', scraping:{title:'.titulo', dropline:'.epigrafe', body: '#cuerpo p'}, site:'LN'}},
     {brand: {url:'http://contenidos.lanacion.com.ar/herramientas/rss-categoria_id=371', main:'https://www.lanacion.com/' ,links:'result.feed.entry', element:'element.id[0]', date:'', scraping:{title:'.titulo', dropline:'.epigrafe', body: '#cuerpo p'}, site:'LN'}},
 
-
     {brand: {url:'https://www.clarin.com/rss/lo-ultimo/', main:'https://www.clarin.com/' ,links:'result.rss.channel[0].item', element:'element.link[0]', date:'', scraping:{title:'#title', main:'https://www.clarin.com/', dropline:'.bajada', body: '.body-nota p'}, site:'CL'}},
     {brand: {url:'https://www.clarin.com/rss/politica/', main:'https://www.clarin.com/' ,links:'result.rss.channel[0].item', element:'element.link[0]', date:'', scraping:{title:'#title', dropline:'.bajada', body: '.body-nota p'}, site:'CL'}},
     {brand: {url:'https://www.clarin.com/rss/mundo/', main:'https://www.clarin.com/' ,links:'result.rss.channel[0].item', element:'element.link[0]', date:'', scraping:{title:'#title', dropline:'.bajada', body: '.body-nota p'}, site:'CL'}},
